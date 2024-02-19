@@ -8,7 +8,8 @@
 
 ## Steps
 
-1. Setup googletest (can be ignored, will need to modify eFLL makefile)
+1. Adjust parameters in ```./setup.sh``` to your need.
+2. Execute ```bash ./setup.sh```.
 
 ## References
 
