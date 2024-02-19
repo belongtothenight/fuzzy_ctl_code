@@ -2,7 +2,7 @@
 
 This project is to create a GUI for parameter tuning of Fuzzy Logic Controllers (FLC).
 
-Use standard format to receive input, output, logic and rules. Run simulation to see whether it will go out of spec.
+Use standard format to receive input, output, logic and rules. Use eFFL to run simulation to see whether it will go out of spec.
 
 ## Dependencies
 
