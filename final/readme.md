@@ -18,8 +18,9 @@ Use standard format to receive input, output, logic and rules. Use eFFL to run s
 ## Usage
 
 ```bash
-./flc_sim -h
+$ ./flc_sim -h
 ./flc_sim [-i INPUT SIMULATION RANGE in CSV] [-l OUTPUT LIMITS in CSV] [-o OUTPUT SIMULATION DATA FILEPATH]
+$ ./flc_sim -i inputs.csv -l limits.csv -o output.csv
 ```
 
 inputs.csv
