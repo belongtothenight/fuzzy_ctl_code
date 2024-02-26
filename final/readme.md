@@ -25,8 +25,8 @@ $ ./flc_sim -i inputs.csv -l limits.csv -o output.csv
 
 inputs.csv
 ```csv
-i1, i2
-0,  1
+i1,i2
+0  ,1
 0.1,1
 0.2,1
 0.3,1
@@ -36,7 +36,7 @@ i1, i2
 0.7,1
 0.8,1
 0.9,1
-1,  1
+1  ,1
 ```
 
 limits.csv
