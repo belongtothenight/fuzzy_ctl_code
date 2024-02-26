@@ -15,6 +15,36 @@ Use standard format to receive input, output, logic and rules. Use eFFL to run s
 1. Adjust parameters in ```./setup.sh``` to your need.
 2. Execute ```bash ./setup.sh```.
 
+## Usage
+
+```bash
+./flc_sim -h
+./flc_sim [-i INPUT SIMULATION RANGE in CSV] [-l OUTPUT LIMITS in CSV] [-o OUTPUT SIMULATION DATA FILEPATH]
+```
+
+inputs.csv
+```csv
+i1, i2
+0,  1
+0.1,1
+0.2,1
+0.3,1
+0.4,1
+0.5,1
+0.6,1
+0.7,1
+0.8,1
+0.9,1
+1,  1
+```
+
+limits.csv
+```csv
+not finished
+```
+
+output.
+
 ## References
 
 1. https://gist.github.com/Cartexius/4c437c084d6e388288201aadf9c8cdd5?permalink_comment_id=4757070#gistcomment-4757070
