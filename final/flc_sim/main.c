@@ -7,6 +7,11 @@
 
 void printUsage (void) {
     printf("Usage: ./main -i <inputs_file> -l <limits_file> -o <output_path> [-v] [-h]\n");
+    printf("  -i <inputs_file>   : Path to the inputs file\n");
+    printf("  -l <limits_file>   : Path to the limits file\n");
+    printf("  -o <output_path>   : Path to the output directory\n");
+    printf("  -v                 : Verbose mode\n");
+    printf("  -h                 : Print this help message\n");
 }
 
 int main(int argc, char *argv[]) {
