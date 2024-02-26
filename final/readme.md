@@ -44,8 +44,6 @@ limits.csv
 not finished
 ```
 
-output.
-
 ## References
 
 1. https://gist.github.com/Cartexius/4c437c084d6e388288201aadf9c8cdd5?permalink_comment_id=4757070#gistcomment-4757070
