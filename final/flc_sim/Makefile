@@ -5,7 +5,7 @@ all: main_c error_c
 	gcc -o flc_sim -lm main.o error.o
 
 clean:
-	rm *.o
+	rm *.o flc_sim
 
 clean_win:
 	del *.o *.exe

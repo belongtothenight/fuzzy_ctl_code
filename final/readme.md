@@ -44,6 +44,18 @@ limits.csv
 not finished
 ```
 
+## Compilation Commands
+
+Windows PowerShell7
+```powershell
+make clean_win; make; .\flc_sim.exe -i input.csv -l limits.csv -o . -v
+```
+
+Linux Bash
+```bash
+make clean; make; ./flc_sim -i input.csv -l limits.csv -o . -v
+```
+
 ## References
 
 1. https://gist.github.com/Cartexius/4c437c084d6e388288201aadf9c8cdd5?permalink_comment_id=4757070#gistcomment-4757070

@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
         print_rc_message(RC_NO_INPUTS);
         printUsage();
         return 0;
-    } else if (argc > 7) {
+    } else if (argc > 8) {
         print_rc_message(RC_MAX_INPUTS);
         printUsage();
         return 0;
@@ -43,24 +43,21 @@ int main(int argc, char *argv[]) {
             if (i < argc) {
                 inputs_file = argv[i];
             } else {
-                print_rc_message(RC_NO_INPUTS_FILE);
-                printUsage();
+                rc = RC_NO_INPUTS_FILE_VALUE;
             }
         } else if (strcmp(argv[i], "-l") == 0) {
             i++;
             if (i < argc) {
                  limits_file = argv[i];
             } else {
-                print_rc_message(RC_NO_LIMITS_FILE);
-                printUsage();
+                rc = RC_NO_LIMITS_FILE_VALUE;
             }
         } else if (strcmp(argv[i], "-o") == 0) {
             i++;
             if (i < argc) {
                 output_path = argv[i];
             } else {
-                print_rc_message(RC_NO_OUTPUT_PATH);
-                printUsage();
+                rc = RC_NO_OUTPUT_PATH_VALUE;
             }
         /* Check for single arguments */
         } else if (strcmp(argv[i], "-v") == 0) {
@@ -69,14 +66,51 @@ int main(int argc, char *argv[]) {
             printUsage();
             return 0;
         } else {
-            print_rc_message(RC_UNKNOWN_OPTION);
-            printUsage();
-            return 0;
+            rc = RC_UNKNOWN_OPTION;
+        }
+    }
+    if (verbose) {
+        printf("STEP01 Parsed CLI arguments:\n");
+        printf("inputs_file: %s\n", inputs_file);
+        printf("limits_file: %s\n", limits_file);
+        printf("output_path: %s\n", output_path);
+    }
+
+    /* Check for required arguments */
+    if (rc == 0) {
+        if (inputs_file == NULL) {
+            rc = RC_NO_INPUTS_FILE_OPTION;
+        } else if (limits_file == NULL) {
+            rc = RC_NO_LIMITS_FILE_OPTION;
+        } else if (output_path == NULL) {
+            rc = RC_NO_OUTPUT_PATH_OPTION;
+        }
+        if (verbose) {
+            printf("STEP02 Checked for required arguments\n");
+        }
+    }
+
+    /* Check for file types */
+    if (rc == 0) {
+        if (strstr(inputs_file, ".csv") == NULL) {
+            rc = RC_WRONG_INPUTS_FILETYPE;
+        } else if (strstr(limits_file, ".csv") == NULL) {
+            rc = RC_WRONG_LIMITS_FILETYPE;
+        }
+        if (verbose) {
+            printf("STEP03 Checked for file types\n");
         }
     }
 
     if (rc == 0) {
         printf("Hello, World!\n");
+    }
+
+    /* Error handling */
+    if (rc != 0) {
+        printf("%s: failed, rc 0x%02x\n", argv[0], rc);
+        print_rc_message(rc);
+        printUsage();
     }
 
     return 0;
