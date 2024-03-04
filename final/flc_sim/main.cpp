@@ -106,7 +106,101 @@ int main(int argc, char *argv[]) {
     }
 
     if (ec == 0) {
-        printf("Hello, World!\n");
+        printf("Input accepted!\n");
+    }
+
+    if (ec == 0) {
+        // Instantiating a Fuzzy object
+        Fuzzy *fuzzy = new Fuzzy();
+
+        // Instantiating a FuzzyInput object
+        FuzzyInput *distance = new FuzzyInput(1);
+        // Instantiating a FuzzySet object
+        FuzzySet *small = new FuzzySet(0, 20, 20, 40);
+        // Including the FuzzySet into FuzzyInput
+        distance->addFuzzySet(small);
+        // Instantiating a FuzzySet object
+        FuzzySet *safe = new FuzzySet(30, 50, 50, 70);
+        // Including the FuzzySet into FuzzyInput
+        distance->addFuzzySet(safe);
+        // Instantiating a FuzzySet object
+        FuzzySet *big = new FuzzySet(60, 80, 80, 80);
+        // Including the FuzzySet into FuzzyInput
+        distance->addFuzzySet(big);
+        // Including the FuzzyInput into Fuzzy
+        fuzzy->addFuzzyInput(distance);
+
+        // Instantiating a FuzzyOutput objects
+        FuzzyOutput *speed = new FuzzyOutput(1);
+        // Instantiating a FuzzySet object
+        FuzzySet *slow = new FuzzySet(0, 10, 10, 20);
+        // Including the FuzzySet into FuzzyOutput
+        speed->addFuzzySet(slow);
+        // Instantiating a FuzzySet object
+        FuzzySet *average = new FuzzySet(10, 20, 30, 40);
+        // Including the FuzzySet into FuzzyOutput
+        speed->addFuzzySet(average);
+        // Instantiating a FuzzySet object
+        FuzzySet *fast = new FuzzySet(30, 40, 40, 50);
+        // Including the FuzzySet into FuzzyOutput
+        speed->addFuzzySet(fast);
+        // Including the FuzzyOutput into Fuzzy
+        fuzzy->addFuzzyOutput(speed);
+
+        // Building FuzzyRule "IF distance = small THEN speed = slow"
+        // Instantiating a FuzzyRuleAntecedent objects
+        FuzzyRuleAntecedent *ifDistanceSmall = new FuzzyRuleAntecedent();
+        // Creating a FuzzyRuleAntecedent with just a single FuzzySet
+        ifDistanceSmall->joinSingle(small);
+        // Instantiating a FuzzyRuleConsequent objects
+        FuzzyRuleConsequent *thenSpeedSlow = new FuzzyRuleConsequent();
+        // Including a FuzzySet to this FuzzyRuleConsequent
+        thenSpeedSlow->addOutput(slow);
+        // Instantiating a FuzzyRule objects
+        FuzzyRule *fuzzyRule01 = new FuzzyRule(1, ifDistanceSmall, thenSpeedSlow);
+        // Including the FuzzyRule into Fuzzy
+        fuzzy->addFuzzyRule(fuzzyRule01);
+
+        // Building FuzzyRule "IF distance = safe THEN speed = average"
+        // Instantiating a FuzzyRuleAntecedent objects
+        FuzzyRuleAntecedent *ifDistanceSafe = new FuzzyRuleAntecedent();
+        // Creating a FuzzyRuleAntecedent with just a single FuzzySet
+        ifDistanceSafe->joinSingle(safe);
+        // Instantiating a FuzzyRuleConsequent objects
+        FuzzyRuleConsequent *thenSpeedAverage = new FuzzyRuleConsequent();
+        // Including a FuzzySet to this FuzzyRuleConsequent
+        thenSpeedAverage->addOutput(average);
+        // Instantiating a FuzzyRule objects
+        FuzzyRule *fuzzyRule02 = new FuzzyRule(2, ifDistanceSafe, thenSpeedAverage);
+        // Including the FuzzyRule into Fuzzy
+        fuzzy->addFuzzyRule(fuzzyRule02);
+
+        // Building FuzzyRule "IF distance = big THEN speed = high"
+        // Instantiating a FuzzyRuleAntecedent objects
+        FuzzyRuleAntecedent *ifDistanceBig = new FuzzyRuleAntecedent();
+        // Creating a FuzzyRuleAntecedent with just a single FuzzySet
+        ifDistanceBig->joinSingle(big);
+        // Instantiating a FuzzyRuleConsequent objects
+        FuzzyRuleConsequent *thenSpeedFast = new FuzzyRuleConsequent();
+        // Including a FuzzySet to this FuzzyRuleConsequent
+        thenSpeedFast->addOutput(fast);
+        // Instantiating a FuzzyRule objects
+        FuzzyRule *fuzzyRule03 = new FuzzyRule(3, ifDistanceBig, thenSpeedFast);
+        // Including the FuzzyRule into Fuzzy
+        fuzzy->addFuzzyRule(fuzzyRule03);
+
+        // get a random value
+        int input = 50;
+        // Printing something
+        printf("Entrance: \n\t\t\tDistance: %d\n", input);
+        // Set the random value as an input
+        fuzzy->setInput(1, input);
+        // Running the Fuzzification
+        fuzzy->fuzzify();
+        // Running the Defuzzification
+        float output = fuzzy->defuzzify(1);
+        // Printing something
+        printf("Result: \n\t\t\tSpeed: %f\n", output);
     }
 
     /* Error handling */
@@ -115,124 +209,5 @@ int main(int argc, char *argv[]) {
         print_ec_message(ec);
         printUsage();
     }
-
-      Fuzzy *fuzzy = new Fuzzy();
-
-  // FuzzyInput
-  FuzzyInput *distance = new FuzzyInput(1);
-
-  FuzzySet *near = new FuzzySet(0, 20, 20, 40);
-  distance->addFuzzySet(near);
-  FuzzySet *safe = new FuzzySet(30, 50, 50, 70);
-  distance->addFuzzySet(safe);
-  FuzzySet *distant = new FuzzySet(60, 80, 100, 100);
-  distance->addFuzzySet(distant);
-
-  fuzzy->addFuzzyInput(distance);
-
-  // FuzzyInput
-  FuzzyInput *inputSpeed = new FuzzyInput(2);
-
-  FuzzySet *stopedInput = new FuzzySet(0, 0, 0, 0);
-  inputSpeed->addFuzzySet(stopedInput);
-  FuzzySet *slowInput = new FuzzySet(1, 10, 10, 20);
-  inputSpeed->addFuzzySet(slowInput);
-  FuzzySet *normalInput = new FuzzySet(15, 30, 30, 50);
-  inputSpeed->addFuzzySet(normalInput);
-  FuzzySet *quickInput = new FuzzySet(45, 60, 70, 70);
-  inputSpeed->addFuzzySet(quickInput);
-
-  fuzzy->addFuzzyInput(inputSpeed);
-
-  // FuzzyInput
-  FuzzyInput *temperature = new FuzzyInput(3);
-
-  FuzzySet *cold = new FuzzySet(-30, -30, -20, -10);
-  temperature->addFuzzySet(cold);
-  FuzzySet *good = new FuzzySet(-15, 0, 0, 15);
-  temperature->addFuzzySet(good);
-  FuzzySet *hot = new FuzzySet(10, 20, 30, 30);
-  temperature->addFuzzySet(hot);
-
-  fuzzy->addFuzzyInput(temperature);
-
-  // FuzzyOutput
-  FuzzyOutput *risk = new FuzzyOutput(1);
-
-  FuzzySet *minimum = new FuzzySet(0, 20, 20, 40);
-  risk->addFuzzySet(minimum);
-  FuzzySet *average = new FuzzySet(30, 50, 50, 70);
-  risk->addFuzzySet(average);
-  FuzzySet *maximum = new FuzzySet(60, 80, 80, 100);
-  risk->addFuzzySet(maximum);
-
-  fuzzy->addFuzzyOutput(risk);
-
-  // FuzzyOutput
-  FuzzyOutput *speedOutput = new FuzzyOutput(2);
-
-  FuzzySet *stopedOutput = new FuzzySet(0, 0, 0, 0);
-  speedOutput->addFuzzySet(stopedOutput);
-  FuzzySet *slowOutput = new FuzzySet(1, 10, 10, 20);
-  speedOutput->addFuzzySet(slowOutput);
-  FuzzySet *normalOutput = new FuzzySet(15, 30, 30, 50);
-  speedOutput->addFuzzySet(normalOutput);
-  FuzzySet *quickOutput = new FuzzySet(45, 60, 70, 70);
-  speedOutput->addFuzzySet(quickOutput);
-
-  fuzzy->addFuzzyOutput(speedOutput);
-
-  // Building FuzzyRule
-  FuzzyRuleAntecedent *distanceCloseAndSpeedQuick = new FuzzyRuleAntecedent();
-  distanceCloseAndSpeedQuick->joinWithAND(near, quickInput);
-  FuzzyRuleAntecedent *temperatureCold = new FuzzyRuleAntecedent();
-  temperatureCold->joinSingle(cold);
-  FuzzyRuleAntecedent *ifDistanceCloseAndSpeedQuickOrTemperatureCold = new FuzzyRuleAntecedent();
-  ifDistanceCloseAndSpeedQuickOrTemperatureCold->joinWithOR(distanceCloseAndSpeedQuick, temperatureCold);
-
-  FuzzyRuleConsequent *thenRisMaximumAndSpeedSlow = new FuzzyRuleConsequent();
-  thenRisMaximumAndSpeedSlow->addOutput(maximum);
-  thenRisMaximumAndSpeedSlow->addOutput(slowOutput);
-
-  FuzzyRule *fuzzyRule1 = new FuzzyRule(1, ifDistanceCloseAndSpeedQuickOrTemperatureCold, thenRisMaximumAndSpeedSlow);
-  fuzzy->addFuzzyRule(fuzzyRule1);
-
-  // Building FuzzyRule
-  FuzzyRuleAntecedent *distanceSafeAndSpeedNormal = new FuzzyRuleAntecedent();
-  distanceSafeAndSpeedNormal->joinWithAND(safe, normalInput);
-  FuzzyRuleAntecedent *ifDistanceSafeAndSpeedNormalOrTemperatureGood = new FuzzyRuleAntecedent();
-  ifDistanceSafeAndSpeedNormalOrTemperatureGood->joinWithOR(distanceSafeAndSpeedNormal, good);
-
-  FuzzyRuleConsequent *thenRiskAverageAndSpeedNormal = new FuzzyRuleConsequent();
-  thenRiskAverageAndSpeedNormal->addOutput(average);
-  thenRiskAverageAndSpeedNormal->addOutput(normalOutput);
-
-  FuzzyRule *fuzzyRule2 = new FuzzyRule(2, ifDistanceSafeAndSpeedNormalOrTemperatureGood, thenRiskAverageAndSpeedNormal);
-  fuzzy->addFuzzyRule(fuzzyRule2);
-
-  // Building FuzzyRule
-  FuzzyRuleAntecedent *distanceDistantAndSpeedSlow = new FuzzyRuleAntecedent();
-  distanceDistantAndSpeedSlow->joinWithAND(distant, slowInput);
-  FuzzyRuleAntecedent *ifDistanceDistantAndSpeedSlowOrTemperatureHot = new FuzzyRuleAntecedent();
-  ifDistanceDistantAndSpeedSlowOrTemperatureHot->joinWithOR(distanceDistantAndSpeedSlow, hot);
-
-  FuzzyRuleConsequent *thenRiskMinimumSpeedQuick = new FuzzyRuleConsequent();
-  thenRiskMinimumSpeedQuick->addOutput(minimum);
-  thenRiskMinimumSpeedQuick->addOutput(quickOutput);
-
-  FuzzyRule *fuzzyRule3 = new FuzzyRule(3, ifDistanceDistantAndSpeedSlowOrTemperatureHot, thenRiskMinimumSpeedQuick);
-  fuzzy->addFuzzyRule(fuzzyRule3);
-
-  float distanceValue = 30;
-  float speedValue = 40;
-  float temperatureValue = 0;
-  printf("Entrance: \nDistance: %f\nSpeed: %f\nTemperature: %f\n", distanceValue, speedValue, temperatureValue);
-  fuzzy->setInput(1, distanceValue);
-  fuzzy->setInput(2, speedValue);
-  fuzzy->setInput(3, temperatureValue);
-  float output1 = fuzzy->defuzzify(1);
-  float output2 = fuzzy->defuzzify(2);
-  printf("Exit: \nRisk: %f\nSpeed: %f\n", output1, output2);
-
     return 0;
 }
