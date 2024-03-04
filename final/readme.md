@@ -8,12 +8,16 @@ Use standard format to receive input, output, logic and rules. Use eFFL to run s
 
 1. Debian based Linux
 2. [alvesoaj/eFLL](https://github.com/alvesoaj/eFLL/tree/master)
-    1. [google/googletest](https://github.com/google/googletest/tree/main/googletest)
+    1. [google/googletest](https://github.com/google/googletest/tree/main/googletest) (optional)
 
 ## Steps
 
-1. Adjust parameters in ```./setup.sh``` to your need.
-2. Execute ```bash ./setup.sh```.
+1. Method 1: with googletest
+    1. Adjust parameters in ```./setup.sh``` to your need.
+    2. Execute ```bash ./setup.sh```.
+2. Method 2: without googletest (recommended)
+    1. Delete the line ```$(MAKE) test``` in ```eFLL/Makefile```.
+    2. Execute ```make``` in ```eFLL``` directory.
 
 ## Usage
 

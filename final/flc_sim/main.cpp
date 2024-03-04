@@ -20,10 +20,16 @@ int main(int argc, char *argv[]) {
     EC         ec = 0; /* Error code (handling library error) */
     //int        rc = 0; /* Return code */
     int        i = 0; /* argc index */
+    int        t = 0; /* mainloop index, for simulation */
     const char *inputs_file = NULL;
     const char *limits_file = NULL;
     const char *output_path = NULL;
     bool       verbose = false;
+    Fuzzy      *fuzzy = new Fuzzy(); /* Instantiating a Fuzzy object */
+    float      input = 0;
+    float      output = 0;
+    int        input_len = 8;
+    float      input_arr[] = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 2};
 
     setvbuf(stdout, 0, _IONBF, 0); /* output may be going through pipe to log file */
 
@@ -74,9 +80,9 @@ int main(int argc, char *argv[]) {
     }
     if (verbose) {
         printf("STEP01 Parsed CLI arguments:\n");
-        printf("inputs_file: %s\n", inputs_file);
-        printf("limits_file: %s\n", limits_file);
-        printf("output_path: %s\n", output_path);
+        printf("inputs_file: \t%s\n", inputs_file);
+        printf("limits_file: \t%s\n", limits_file);
+        printf("output_path: \t%s\n", output_path);
     }
 
     /* Check for required arguments */
@@ -105,13 +111,12 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    if (ec == 0) {
-        printf("Input accepted!\n");
-    }
+    /* Parse inputs.csv */
 
+    /* Parse limits.csv */
+
+    /* Initialize Fuzzy object */
     if (ec == 0) {
-        // Instantiating a Fuzzy object
-        Fuzzy *fuzzy = new Fuzzy();
 
         // Instantiating a FuzzyInput object
         FuzzyInput *distance = new FuzzyInput(1);
@@ -189,18 +194,26 @@ int main(int argc, char *argv[]) {
         // Including the FuzzyRule into Fuzzy
         fuzzy->addFuzzyRule(fuzzyRule03);
 
-        // get a random value
-        int input = 50;
-        // Printing something
-        printf("Entrance: \n\t\t\tDistance: %d\n", input);
-        // Set the random value as an input
-        fuzzy->setInput(1, input);
-        // Running the Fuzzification
-        fuzzy->fuzzify();
-        // Running the Defuzzification
-        float output = fuzzy->defuzzify(1);
-        // Printing something
-        printf("Result: \n\t\t\tSpeed: %f\n", output);
+        if (verbose) {
+            printf("STEP04 Fuzzy object initialized\n");
+        }
+    }
+
+    /* Main loop */
+    for (t=0 ; (t<input_len) && (ec==0) ; t++) {
+        /* input modifying */
+        input = input_arr[t];
+        /* close loop value */
+        /* fuzzify and defuzzify */
+        if (ec == 0) {
+            fuzzy->setInput(1, input);
+            fuzzy->fuzzify();
+            output = fuzzy->defuzzify(1);
+            printf("Entrance: \tDistance: %f \tResult: \tSpeed: %f\n", input, output);
+        }
+        /* controlling */
+        /* storing output */
+        /* update plot */
     }
 
     /* Error handling */
