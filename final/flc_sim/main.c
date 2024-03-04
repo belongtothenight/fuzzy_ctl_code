@@ -5,6 +5,8 @@
 
 #include "./error.h"
 
+#include "../../../eFLL/fuzzy.h"
+
 void printUsage (void) {
     printf("Usage: ./main -i <inputs_file> -l <limits_file> -o <output_path> [-v] [-h]\n");
     printf("  -i <inputs_file>   : Path to the inputs file\n");
@@ -16,7 +18,7 @@ void printUsage (void) {
 
 int main(int argc, char *argv[]) {
     EC         ec = 0; /* Error code (handling library error) */
-    int        rc = 0; /* Return code */
+    //int        rc = 0; /* Return code */
     int        i = 0; /* argc index */
     const char *inputs_file = NULL;
     const char *limits_file = NULL;
